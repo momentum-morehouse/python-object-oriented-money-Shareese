@@ -18,7 +18,10 @@ class Currency:
         - symbol - optional symbol used to designate currency
         - digits -- number of significant digits used
         """
-        pass
+        self.name = name 
+        self.code = code
+        self.symbol = symbol
+        self.digits = digits 
 
     def __str__(self):
         """
@@ -46,14 +49,28 @@ class Money:
         - amount -- quantity of currency
         - currency -- type of currency
         """
-        pass
+        self.amount = amount
+        self.currency = currency
+      
 
     def __str__(self):
         """
         Should use the currency symbol if available, else use the code.
         Use the currency digits to determine number of digits to show.
         """
-        pass
+  
+        assert dollar.name == "United States Dollar"
+        assert dollar.code == "USD"
+        assert dollar.symbol == "$"
+        assert dollar.digits == 2
+        self.dollar = dollar
+        self.name = name
+        self.symbol = symbol
+        self.digits = digits
+        return str(self)
+        
+  
+        
 
     def __repr__(self):
         return f"<Money {str(self)}>"
