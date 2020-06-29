@@ -1,5 +1,5 @@
 # pylint: disable=unidiomatic-typecheck,unnecessary-pass
-
+from io import StringIO
 
 class DifferentCurrencyError(Exception):
     pass
@@ -58,16 +58,18 @@ class Money:
         Should use the currency symbol if available, else use the code.
         Use the currency digits to determine number of digits to show.
         """
-  
-        assert dollar.name == "United States Dollar"
-        assert dollar.code == "USD"
-        assert dollar.symbol == "$"
-        assert dollar.digits == 2
-        self.dollar = dollar
-        self.name = name
-        self.symbol = symbol
-        self.digits = digits
-        return str(self)
+        
+        concat = StringIO()
+        prefix = ""
+        if self.currency.symbol:
+          prefix = self.currency.symbol
+          print("You're right!")
+        else:
+          prefix = self.currency.code + " " 
+        concat.write(prefix) 
+        formatString = "{:." + str(self.currency.digits) +"f}"
+        concat.write(formatString.format(self.amount))
+        return concat.getvalue()
         
   
         
@@ -88,23 +90,33 @@ class Money:
         Add two money objects of the same currency. If they have different
         currencies, raise a DifferentCurrencyError.
         """
-        pass
+        if self.currency != other.currency:
+          raise DifferentCurrencyError()
+    
+        return Money(self.amount + other.amount, self.currency)
 
     def sub(self, other):
         """
         Subtract two money objects of the same currency. If they have different
         currencies, raise a DifferentCurrencyError.
         """
-        pass
+        if self.currency != other.currency:
+          raise DifferentCurrencyError()
+    
+        return Money(self.amount - other.amount, self.currency)
 
     def mul(self, multiplier):
         """
         Multiply a money object by a number to get a new money object.
         """
-        pass
+      
+    
+        return Money(self.amount * multiplier, self.currency)
 
     def div(self, divisor):
         """
         Divide a money object by a number to get a new money object.
         """
-        pass
+    
+    
+        return Money(self.amount / divisor, self.currency) 
